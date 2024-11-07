@@ -6,6 +6,9 @@ class QemuRunner {
     arch: string;
     bus: string = "device";
     builder: KernelBuilder;
+    memorySize: string = "1G";
+    smp: string = "1";
+
 
     constructor(options: CommandOptions<globalArgType>, builder: KernelBuilder) {
         this.arch = options.arch;
@@ -50,15 +53,16 @@ class QemuRunner {
             args: [
                 ...this.getQemuArchExec(),
                 "-m",
-                "1G",
+                this.memorySize,
                 "-nographic",
                 "-smp", 
-                "1",
+                this.smp,
+                // Dump Debug information.
                 "-D", 
                 "qemu.log",
                 "-d",
                 "in_asm,int,pcall,cpu_reset,guest_errors",
-    
+                // Add virtio block device.
                 "-drive",
                 "file=mount.img,if=none,format=raw,id=x0",
                 "-device",

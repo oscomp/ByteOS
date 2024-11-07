@@ -154,23 +154,18 @@ fn main(hart_id: usize) {
         let str = include_str!("banner.txt");
         println!("{}", str);
 
-        // initialize logging module
-        // logging::init(option_env!("LOG"));
-
         polyhal::common::init(&PageAllocImpl);
         get_mem_areas().into_iter().for_each(|(start, size)| {
             info!("memory area: {:#x} - {:#x}", start, start + size);
             frame_allocator::add_frame_map(start, start + size);
         });
 
-        println!("run kernel @ hart {}", hart_id);
-
+        info!("run kernel @ hart {}", hart_id);
         info!("program size: {}KB", (end as usize - start as usize) / 1024);
 
-        // Boot all application core.
-        // polyhal::multicore::MultiCore::boot_all();
-
         devices::prepare_drivers();
+
+        log::debug!("device fdt: {}", get_fdt().is_some());
 
         if let Some(fdt) = get_fdt() {
             for node in fdt.all_nodes() {
@@ -180,9 +175,6 @@ fn main(hart_id: usize) {
 
         // get devices and init
         devices::regist_devices_irq();
-
-        // TODO: test ebreak
-        // Instruction::ebreak();
 
         // initialize filesystem
         fs::init();
@@ -218,14 +210,9 @@ fn main(hart_id: usize) {
         // crate::syscall::cache_task_template("libc.so").expect("can't cache task");
         // crate::syscall::cache_task_template("lmbench_all").expect("can't cache task");
 
-        // loop {
-        //     info!("3");
-        // }
-
         // init kernel threads and async executor
         tasks::init();
         log::info!("run tasks");
-        // loop { arch::wfi() }
         tasks::run_tasks();
 
         println!("Task All Finished!");
@@ -233,7 +220,6 @@ fn main(hart_id: usize) {
         println!("run kernel @ hart {}", hart_id);
 
         IRQ::int_enable();
-        // loop { arch::wfi() }
         tasks::run_tasks();
         info!("shutdown ap core");
     }

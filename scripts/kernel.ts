@@ -16,7 +16,7 @@ export class KernelBuilder {
         this.elfPath = `${Deno.cwd()}/target/${targetMap[arch]}/release/kernel`;
         this.binPath = `${this.elfPath}.bin`;
 
-        this.rustflags = Deno.env.get('rustflags') || "";
+        this.rustflags = Deno.env.get('RUSTFLAGS') || "";
     }
 
     buildFlags() {
@@ -25,14 +25,16 @@ export class KernelBuilder {
             "-Clink-arg=-no-pie",
             "-Ztls-model=local-exec",
             `--cfg=root_fs="ext4_rs"`,
-            '--cfg=board="qemu"'
+            '--cfg=board="qemu"',
+            `--cfg=driver="kvirtio,kgoldfish-rtc,ns16550a"`
         ];
         
-        this.rustflags += rustflags.join(" ");
+        this.rustflags += ' ' + rustflags.join(" ");
     }
 
     async buildElf() {
         this.buildFlags();
+        console.log(this.rustflags);
 
         const buildProc = new Deno.Command("cargo", {
             args: [

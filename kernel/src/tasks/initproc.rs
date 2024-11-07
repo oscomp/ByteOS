@@ -283,7 +283,9 @@ pub async fn initproc() {
     // command("busybox sh busybox_testcode.sh").await;
 
     // command("busybox echo run libctest_testcode.sh").await;
-    command("busybox sh libctest_testcode.sh").await;
+    // command("busybox sh libctest_testcode.sh").await;
+    // command("busybox sh").await;
+    command("ls").await;
     // command("busybox echo Hello World!").await;
     // command("busybox sh").await;
     // command("hello").await;
