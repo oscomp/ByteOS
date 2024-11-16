@@ -3,6 +3,7 @@
 import { Command } from "https://deno.land/x/cliffy@v1.0.0-rc.4/command/mod.ts";
 import { cliCommand as buildCommand } from './scripts/cli-build.ts';
 import { cliCommand as qemuCommand } from './scripts/cli-qemu.ts';
+import { cliCommand as rootfsCommand } from './scripts/cli-rootfs.ts';
 import { logLevelEnum, archEnum } from './scripts/cli-types.ts';
 import { parse } from "jsr:@std/yaml";
 
@@ -18,6 +19,7 @@ const command = new Command()
 
     // Sub Command build
     .command("build", buildCommand)
+    .command("rootfs", rootfsCommand)
     .command("qemu", qemuCommand);
 
 // parse yaml file

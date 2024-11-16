@@ -5,7 +5,7 @@ import { KernelBuilder } from "./kernel.ts";
 
 export const cargoBuild = async function(options: CommandOptions<globalArgType>) {
 
-    const builder = new KernelBuilder(options.arch);
+    const builder = new KernelBuilder(options.arch, options.logLevel);
     await builder.buildElf();
     await builder.convertBin();
 
