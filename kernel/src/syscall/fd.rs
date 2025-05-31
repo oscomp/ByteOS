@@ -32,6 +32,10 @@ impl UserTaskContainer {
 
     pub fn sys_dup3(&self, fd_src: usize, fd_dst: usize) -> SysResult {
         debug!("sys_dup3 @ fd_src: {}, fd_dst: {}", fd_src, fd_dst);
+        let rlimit = self.task.pcb.lock().rlimits[7];
+        if fd_dst >= rlimit {
+            return Err(Errno::EMFILE);
+        }
         let file = self.task.get_fd(fd_src).ok_or(Errno::EBADF)?;
         self.task.set_fd(fd_dst, file);
         Ok(fd_dst)
