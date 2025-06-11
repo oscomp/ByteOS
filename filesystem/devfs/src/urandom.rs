@@ -1,4 +1,4 @@
-use libc_types::{
+use libc_core::{
     poll::PollEvent,
     types::{Stat, StatMode},
 };

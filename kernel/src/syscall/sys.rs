@@ -1,10 +1,10 @@
 use super::SysResult;
 use crate::{user::UserTaskContainer, utils::useref::UserRef};
-use libc_types::{resource::Rlimit, utsname::UTSname};
+use libc_core::{resource::Rlimit, utsname::UTSName};
 use log::{debug, warn};
 
 impl UserTaskContainer {
-    pub fn sys_uname(&self, uts_ptr: UserRef<UTSname>) -> SysResult {
+    pub fn sys_uname(&self, uts_ptr: UserRef<UTSName>) -> SysResult {
         debug!("sys_uname @ uts_ptr: {}", uts_ptr);
 
         // for linux app compatible
@@ -133,7 +133,7 @@ impl UserTaskContainer {
 
     #[cfg(target_arch = "x86_64")]
     pub fn sys_arch_prctl(&self, code: usize, addr: usize) -> SysResult {
-        use libc_types::others::ArchPrctlCmd;
+        use libc_core::others::ArchPrctlCmd;
         use polyhal_trap::trapframe::TrapFrameArgs;
         use syscalls::Errno;
 

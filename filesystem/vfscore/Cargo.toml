@@ -11,4 +11,4 @@ downcast-rs = { version = "2.0.1", default-features = false, features = [
   "sync",
 ] }
 syscalls = { workspace = true }
-libc-types = { workspace = true }
+libc-core = { workspace = true }

@@ -12,4 +12,4 @@ sync = { workspace = true }
 polyhal = { workspace = true }
 runtime = { workspace = true }
 syscalls = { workspace = true }
-libc-types = { workspace = true }
+libc-core = { workspace = true }

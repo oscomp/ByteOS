@@ -9,5 +9,5 @@ vfscore = { workspace = true }
 syscalls = { workspace = true }
 sync = { workspace = true }
 devices = { workspace = true }
-libc-types = { workspace = true }
+libc-core = { workspace = true }
 ext4_rs = "1.3.1"

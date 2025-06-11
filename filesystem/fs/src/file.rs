@@ -1,6 +1,6 @@
 use crate::{dentry::get_mounted, pathbuf::PathBuf, WaitBlockingRead, WaitBlockingWrite};
 use alloc::{string::String, sync::Arc, vec::Vec};
-use libc_types::{
+use libc_core::{
     fcntl::OpenFlags,
     poll::PollEvent,
     types::{Dirent64, Stat, StatFS, TimeSpec},

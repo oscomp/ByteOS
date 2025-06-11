@@ -1,7 +1,7 @@
 use alloc::{collections::btree_map::BTreeMap, string::String, sync::Arc, vec::Vec};
 use devices::PAGE_SIZE;
 use executor::AsyncTask;
-use libc_types::elf::AuxType;
+use libc_core::elf::AuxType;
 use polyhal_trap::trapframe::{TrapFrame, TrapFrameArgs};
 
 use crate::{

@@ -4,7 +4,7 @@ use alloc::{
     collections::VecDeque,
     sync::{Arc, Weak},
 };
-use libc_types::{
+use libc_core::{
     poll::PollEvent,
     types::{Stat, StatMode},
 };

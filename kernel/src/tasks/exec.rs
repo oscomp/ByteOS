@@ -11,7 +11,7 @@ use alloc::{
 use core::ops::{Add, Mul};
 use devices::{frame_alloc_much, PAGE_SIZE};
 use fs::{file::File, pathbuf::PathBuf};
-use libc_types::fcntl::OpenFlags;
+use libc_core::fcntl::OpenFlags;
 use syscalls::Errno;
 use xmas_elf::program::{SegmentData, Type};
 

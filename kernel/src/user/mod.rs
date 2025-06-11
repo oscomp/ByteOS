@@ -4,7 +4,7 @@ use crate::utils::hexdump;
 use alloc::sync::Arc;
 use devices::PAGE_SIZE;
 use executor::{AsyncTask, TaskId};
-use libc_types::signal::SignalNum;
+use libc_core::signal::SignalNum;
 use log::{debug, warn};
 use polyhal::timer::get_ticks;
 use polyhal::{MappingFlags, VirtAddr};

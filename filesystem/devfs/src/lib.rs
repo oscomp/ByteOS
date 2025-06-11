@@ -4,7 +4,7 @@ extern crate alloc;
 extern crate log;
 
 use alloc::{collections::BTreeMap, string::ToString, sync::Arc, vec::Vec};
-use libc_types::types::{Stat, StatMode};
+use libc_core::types::{Stat, StatMode};
 use syscalls::Errno;
 use vfscore::{DirEntry, FileSystem, FileType, INodeInterface, VfsResult};
 

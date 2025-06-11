@@ -1,4 +1,4 @@
-use libc_types::{signal::UContext, types::SigSet};
+use libc_core::{signal::UContext, types::SigSet};
 use polyhal_trap::trapframe::TrapFrame;
 
 #[repr(C)]

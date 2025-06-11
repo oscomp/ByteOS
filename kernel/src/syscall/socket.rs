@@ -9,7 +9,7 @@ use core::net::{Ipv4Addr, SocketAddrV4};
 use devices::get_net_device;
 use executor::yield_now;
 use fs::file::File;
-use libc_types::fcntl::OpenFlags;
+use libc_core::fcntl::OpenFlags;
 use log::{debug, warn};
 use lose_net_stack::connection::NetServer;
 use lose_net_stack::net_trait::NetInterface;

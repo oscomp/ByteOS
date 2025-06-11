@@ -7,7 +7,7 @@ use alloc::string::String;
 use alloc::sync::Arc;
 use alloc::vec::Vec;
 use downcast_rs::{impl_downcast, DowncastSync};
-use libc_types::{
+use libc_core::{
     poll::PollEvent,
     types::{Stat, StatFS, StatMode, TimeSpec},
 };

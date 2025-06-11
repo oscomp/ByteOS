@@ -8,7 +8,7 @@ mod mounts;
 
 use alloc::{collections::BTreeMap, string::ToString, sync::Arc, vec::Vec};
 use interrupts::Interrupts;
-use libc_types::types::{Stat, StatMode};
+use libc_core::types::{Stat, StatMode};
 use meminfo::MemInfo;
 use mounts::Mounts;
 use syscalls::Errno;

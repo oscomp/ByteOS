@@ -1,7 +1,7 @@
 use core::cmp;
 
 use alloc::{collections::VecDeque, sync::Arc};
-use libc_types::poll::PollEvent;
+use libc_core::poll::PollEvent;
 use sync::Mutex;
 use syscalls::Errno;
 use vfscore::{INodeInterface, VfsResult};

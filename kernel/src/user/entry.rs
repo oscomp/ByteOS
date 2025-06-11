@@ -2,7 +2,7 @@ use alloc::boxed::Box;
 use async_recursion::async_recursion;
 use executor::{boot_page_table, yield_now, AsyncTask};
 use futures_lite::future;
-use libc_types::{signal::SignalNum, types::TimeVal};
+use libc_core::{signal::SignalNum, types::TimeVal};
 use log::debug;
 use polyhal::timer::current_time;
 use polyhal_trap::trapframe::TrapFrame;

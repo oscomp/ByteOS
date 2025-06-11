@@ -8,7 +8,7 @@ use core::{
     time::Duration,
 };
 use executor::select;
-use libc_types::{
+use libc_core::{
     time::ITimerVal,
     times::TMS,
     types::{TimeSpec, TimeVal},

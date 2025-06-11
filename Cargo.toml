@@ -8,7 +8,6 @@ members = [
     "crates/devices",
     "crates/executor",
     "crates/runtime",
-    "crates/libc-types",
     "crates/sync",
 
     # 文件系统
@@ -47,7 +46,6 @@ ns16550a = { path = "driver/ns16550a" }
 devices = { path = "crates/devices" }
 executor = { path = "crates/executor" }
 runtime = { path = "crates/runtime" }
-libc-types = { path = "crates/libc-types" }
 logging = { path = "crates/logging" }
 sync = { path = "crates/sync" }
 
@@ -57,6 +55,8 @@ polyhal-trap = { version = "0.4.0" }
 fdt-parser = { version = "0.4.12" }
 
 syscalls = { git = "https://github.com/jasonwhite/syscalls.git", default-features = false }
+
+libc-core = { version = "0.2.1" }
 
 [patch.crates-io]
 # polyhal = { path = "../polyhal/polyhal" }

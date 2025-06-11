@@ -1,5 +1,5 @@
 use alloc::{string::String, vec::Vec};
-use libc_types::types::{Stat, StatMode};
+use libc_core::types::{Stat, StatMode};
 use sync::Mutex;
 use syscalls::Errno;
 use vfscore::INodeInterface;

@@ -6,8 +6,10 @@ extern crate alloc;
 use alloc::{string::String, sync::Arc, vec::Vec};
 use core::cmp::{self, min};
 use core::ops::Add;
-use libc_types::consts::UTIME_OMIT;
-use libc_types::types::{Stat, StatMode, TimeSpec};
+use libc_core::{
+    consts::UTIME_OMIT,
+    types::{Stat, StatMode, TimeSpec},
+};
 use polyhal::pagetable::PAGE_SIZE;
 use runtime::frame::{frame_alloc, FrameTracker};
 use sync::Mutex;

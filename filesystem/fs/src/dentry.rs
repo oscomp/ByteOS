@@ -1,5 +1,5 @@
 use alloc::{sync::Arc, vec::Vec};
-use libc_types::fcntl::OpenFlags;
+use libc_core::fcntl::OpenFlags;
 use sync::Mutex;
 use vfscore::{FileSystem, INodeInterface, VfsResult};
 

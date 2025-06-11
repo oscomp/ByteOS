@@ -1,7 +1,7 @@
 use super::SysResult;
 use crate::{tasks::WaitSignal, user::UserTaskContainer, utils::useref::UserRef};
 use executor::yield_now;
-use libc_types::{
+use libc_core::{
     internal::SigAction,
     signal::SignalNum,
     types::{SigMaskHow, SigSet},

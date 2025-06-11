@@ -15,7 +15,7 @@ vfscore = { workspace = true }
 syscalls = { workspace = true }
 sync = { workspace = true }
 devices = { workspace = true }
-libc-types = { workspace = true }
+libc-core = { workspace = true }
 
 [target.'cfg(root_fs = "ext4_rs")'.dependencies]
 ext4rsfs = { path = "../ext4rsfs" }

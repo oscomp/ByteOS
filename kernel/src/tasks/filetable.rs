@@ -1,7 +1,7 @@
 use alloc::{sync::Arc, vec::Vec};
 use core::ops::{Deref, DerefMut};
 use fs::file::File;
-use libc_types::fcntl::OpenFlags;
+use libc_core::fcntl::OpenFlags;
 
 const FILE_MAX: usize = 255;
 const FD_NONE: Option<Arc<File>> = Option::None;

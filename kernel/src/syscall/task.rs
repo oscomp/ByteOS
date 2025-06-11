@@ -13,7 +13,7 @@ use alloc::{
 };
 use core::cmp;
 use executor::{select, thread, tid2task, yield_now, AsyncTask};
-use libc_types::{
+use libc_core::{
     fcntl::{OpenFlags, AT_FDCWD},
     futex::FutexFlags,
     resource::Rusage,
@@ -110,7 +110,7 @@ impl UserTaskContainer {
 
     pub async fn sys_clone(
         &self,
-        flags: usize,       // 复制 标志位
+        flags: u32,         // 复制 标志位
         stack: usize,       // 指定新的栈，可以为 0, 0 不处理
         ptid: UserRef<u32>, // 父线程 id
         tls: usize,         // TLS线程本地存储描述符

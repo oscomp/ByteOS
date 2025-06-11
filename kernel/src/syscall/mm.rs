@@ -4,7 +4,7 @@ use crate::tasks::{MemArea, MemType};
 use crate::user::UserTaskContainer;
 use crate::utils::useref::UserRef;
 use devices::PAGE_SIZE;
-use libc_types::mman::{MSyncFlags, MapFlags, MmapProt};
+use libc_core::mman::{MSyncFlags, MapFlags, MmapProt};
 use log::debug;
 use polyhal::VirtAddr;
 use runtime::frame::alignup;

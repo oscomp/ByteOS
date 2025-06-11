@@ -2,8 +2,8 @@ use crate::syscall::types::signal::SignalUserContext;
 use crate::tasks::current_user_task;
 use core::mem::size_of;
 use executor::AsyncTask;
-use libc_types::internal::SigAction;
-use libc_types::signal::SignalNum;
+use libc_core::internal::SigAction;
+use libc_core::signal::SignalNum;
 use log::debug;
 use polyhal_trap::trapframe::TrapFrameArgs;
 

@@ -1,5 +1,5 @@
 use hashbrown::HashMap;
-use libc_types::epoll::{EpollCtl, EpollEvent};
+use libc_core::epoll::{EpollCtl, EpollEvent};
 use sync::Mutex;
 use vfscore::INodeInterface;
 

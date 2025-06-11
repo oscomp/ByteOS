@@ -2,7 +2,7 @@ use core::cmp;
 
 use alloc::collections::VecDeque;
 use devices::utils::{get_char, puts};
-use libc_types::{
+use libc_core::{
     ioctl::TermIoctlCmd,
     poll::PollEvent,
     termios::Termios,

@@ -7,7 +7,7 @@ use alloc::{
 use devices::utils::get_char;
 use executor::{current_task, release_task, task::TaskType, tid2task, yield_now, TASK_MAP};
 use fs::{file::File, FileType};
-use libc_types::fcntl::OpenFlags;
+use libc_core::fcntl::OpenFlags;
 use log::debug;
 use polyhal::{debug_console::DebugConsole, instruction::shutdown};
 use vfscore::INodeInterface;

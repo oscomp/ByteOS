@@ -1,7 +1,7 @@
 use core::cmp;
 
 use alloc::string::String;
-use libc_types::types::{Stat, StatMode};
+use libc_core::types::{Stat, StatMode};
 use vfscore::{INodeInterface, VfsResult};
 
 pub struct Interrupts {}

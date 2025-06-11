@@ -8,9 +8,9 @@ mod task;
 mod time;
 pub mod types;
 
-use libc_types::fcntl::OpenFlags;
+use libc_core::fcntl::OpenFlags;
 #[cfg(target_arch = "x86_64")]
-use libc_types::fcntl::AT_FDCWD;
+use libc_core::fcntl::AT_FDCWD;
 pub use socket::NET_SERVER;
 use syscalls::{Errno, Sysno};
 

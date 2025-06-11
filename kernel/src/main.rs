@@ -35,7 +35,7 @@ use core::time::Duration;
 use devices::{self, get_int_device, PAGE_SIZE, VIRT_ADDR_START};
 use executor::current_task;
 use fs::file::File;
-use libc_types::fcntl::OpenFlags;
+use libc_core::fcntl::OpenFlags;
 use polyhal::common::PageAlloc;
 use polyhal::irq::IRQ;
 use polyhal::mem::{get_fdt, get_mem_areas};

@@ -5,7 +5,7 @@ extern crate alloc;
 
 use alloc::{sync::Arc, vec::Vec};
 use devices::get_blk_device;
-use libc_types::types::{Stat, StatFS, StatMode, TimeSpec};
+use libc_core::types::{Stat, StatFS, StatMode, TimeSpec};
 use syscalls::Errno;
 use vfscore::{DirEntry, FileSystem, FileType, INodeInterface, VfsResult};
 

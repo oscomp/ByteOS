@@ -19,7 +19,7 @@ use core::{cmp::max, mem::size_of};
 use devices::PAGE_SIZE;
 use executor::{release_task, task::TaskType, task_id_alloc, AsyncTask, TaskId};
 use fs::{file::File, pathbuf::PathBuf, INodeInterface};
-use libc_types::{
+use libc_core::{
     fcntl::{OpenFlags, AT_FDCWD},
     internal::SigAction,
     signal::{SignalNum, REAL_TIME_SIGNAL_NUM},

@@ -2,7 +2,7 @@ use core::{cmp, net::SocketAddrV4};
 
 use alloc::{sync::Arc, vec::Vec};
 use fs::INodeInterface;
-use libc_types::{
+use libc_core::{
     poll::PollEvent,
     types::{Stat, StatMode},
 };

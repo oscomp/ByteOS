@@ -1,4 +1,4 @@
-use libc_types::mman::MmapProt;
+use libc_core::mman::MmapProt;
 use polyhal::MappingFlags;
 
 pub fn map_mprot_to_flags(mprot: MmapProt) -> MappingFlags {

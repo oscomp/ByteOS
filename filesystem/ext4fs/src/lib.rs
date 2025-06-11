@@ -10,7 +10,7 @@ use alloc::{
 };
 use core::iter::zip;
 use devices::get_blk_device;
-use libc_types::types::{Stat, StatFS, StatMode, TimeSpec};
+use libc_core::types::{Stat, StatFS, StatMode, TimeSpec};
 use lwext4_rust::{
     Ext4BlockWrapper, Ext4File, InodeTypes, KernelDevOp,
     bindings::{O_CREAT, O_RDONLY, O_RDWR, O_TRUNC, O_WRONLY, ext4_fsymlink, ext4_readlink},

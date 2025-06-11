@@ -1,4 +1,4 @@
-use libc_types::{time::ITimerVal, types::TimeVal};
+use libc_core::{time::ITimerVal, types::TimeVal};
 
 #[derive(Debug, Clone, Copy, Default)]
 pub struct ProcessTimer {
