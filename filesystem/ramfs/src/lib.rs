@@ -10,8 +10,7 @@ use libc_core::{
     consts::UTIME_OMIT,
     types::{Stat, StatMode, TimeSpec},
 };
-use polyhal::pagetable::PAGE_SIZE;
-use runtime::frame::{frame_alloc, FrameTracker};
+use runtime::frame::{frame_alloc, FrameTracker, FRAME_SIZE};
 use sync::Mutex;
 use syscalls::Errno;
 use vfscore::{DirEntry, FileSystem, FileType, INodeInterface, VfsResult};
@@ -307,15 +306,15 @@ impl INodeInterface for RamFile {
                 // let content = self.inner.content.lock();
                 // buffer[..read_len].copy_from_slice(&content[offset..(offset + read_len)]);
                 loop {
-                    let curr_size = cmp::min(PAGE_SIZE - offset % PAGE_SIZE, last_len);
+                    let curr_size = cmp::min(FRAME_SIZE - offset % FRAME_SIZE, last_len);
                     if curr_size == 0 {
                         break;
                     }
-                    let index = offset / PAGE_SIZE;
+                    let index = offset / FRAME_SIZE;
                     buffer[buffer_off..buffer_off + curr_size].copy_from_slice(
                         inner[index]
                             .0
-                            .add(offset % PAGE_SIZE)
+                            .add(offset % FRAME_SIZE)
                             .slice_with_len(curr_size),
                     );
                     offset += curr_size;
@@ -330,7 +329,7 @@ impl INodeInterface for RamFile {
     fn writeat(&self, mut offset: usize, buffer: &[u8]) -> VfsResult<usize> {
         log::info!("write to ramfs");
         let mut buffer_off = 0;
-        let pages = (offset + buffer.len()).div_ceil(PAGE_SIZE);
+        let pages = (offset + buffer.len()).div_ceil(FRAME_SIZE);
 
         let mut inner = self.inner.pages.lock();
 
@@ -340,14 +339,14 @@ impl INodeInterface for RamFile {
 
         let mut wsize = buffer.len();
         loop {
-            let curr_size = cmp::min(PAGE_SIZE - offset % PAGE_SIZE, wsize);
+            let curr_size = cmp::min(FRAME_SIZE - offset % FRAME_SIZE, wsize);
             if curr_size == 0 {
                 break;
             }
-            let index = offset / PAGE_SIZE;
+            let index = offset / FRAME_SIZE;
             inner[index]
                 .0
-                .add(offset % PAGE_SIZE)
+                .add(offset % FRAME_SIZE)
                 .slice_mut_with_len(curr_size)
                 .copy_from_slice(&buffer[buffer_off..buffer_off + curr_size]);
             offset += curr_size;
@@ -371,15 +370,15 @@ impl INodeInterface for RamFile {
         let mut page_cont = self.inner.pages.lock();
         let pages = page_cont.len();
         // TODO: Check this line.
-        let target_pages = size.div_ceil(PAGE_SIZE);
+        let target_pages = size.div_ceil(FRAME_SIZE);
 
         page_cont.iter().skip(target_pages).for_each(|x| x.clear());
 
-        if size % PAGE_SIZE != 0 {
-            let page = size / PAGE_SIZE;
-            let offset = size % PAGE_SIZE;
+        if size % FRAME_SIZE != 0 {
+            let page = size / FRAME_SIZE;
+            let offset = size % FRAME_SIZE;
             if let Some(page) = page_cont.get(page) {
-                page.0.add(offset).clear_len(PAGE_SIZE - offset);
+                page.0.add(offset).clear_len(FRAME_SIZE - offset);
             }
         }
 

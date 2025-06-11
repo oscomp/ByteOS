@@ -6,6 +6,9 @@ use log::info;
 use polyhal::{consts::VIRT_ADDR_START, pa, pagetable::PAGE_SIZE, PhysAddr};
 use sync::Mutex;
 
+/// 一个页帧的大小
+pub const FRAME_SIZE: usize = 0x1000;
+
 pub const fn alignup(a: usize, b: usize) -> usize {
     a.div_ceil(b) * b
 }

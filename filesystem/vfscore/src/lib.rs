@@ -1,8 +1,6 @@
 #![no_std]
 extern crate alloc;
 
-extern crate bitflags;
-
 use alloc::string::String;
 use alloc::sync::Arc;
 use alloc::vec::Vec;
