@@ -27,6 +27,7 @@ mod panic;
 mod socket;
 mod syscall;
 mod tasks;
+mod units;
 mod user;
 mod utils;
 
@@ -193,7 +194,10 @@ fn main(hart_id: usize) {
         #[cfg(root_fs = "fat32")]
         mount_fs(fatfs_shim::Fat32FileSystem::new(0), "/");
         #[cfg(root_fs = "ext4")]
-        mount_fs(ext4fs::Ext4FileSystem::new(0), "/");
+        mount_fs(
+            ext4fs::Ext4FileSystem::new(crate::units::get_block_dev(0)),
+            "/",
+        );
         #[cfg(root_fs = "ext4_rs")]
         mount_fs(ext4rsfs::Ext4FileSystem::new(0), "/");
     } else {

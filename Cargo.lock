@@ -214,7 +214,6 @@ dependencies = [
 name = "ext4fs"
 version = "0.1.0"
 dependencies = [
- "devices",
  "libc-core",
  "log",
  "lwext4_rust",

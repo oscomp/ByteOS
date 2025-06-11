@@ -3,13 +3,13 @@
 extern crate alloc;
 
 use alloc::{
+    boxed::Box,
     ffi::CString,
     string::{String, ToString},
     sync::Arc,
     vec::Vec,
 };
 use core::iter::zip;
-use devices::get_blk_device;
 use libc_core::types::{Stat, StatFS, StatMode, TimeSpec};
 use lwext4_rust::{
     Ext4BlockWrapper, Ext4File, InodeTypes, KernelDevOp,
@@ -17,23 +17,23 @@ use lwext4_rust::{
 };
 use sync::Mutex;
 use syscalls::Errno;
-use vfscore::{DirEntry, FileSystem, FileType, INodeInterface, VfsResult};
+use vfscore::{BlockDevice, DirEntry, FileSystem, FileType, INodeInterface, VfsResult};
 
 const BLOCK_SIZE: usize = 0x200;
 
 pub struct Ext4DiskWrapper {
     block_id: usize,
     offset: usize,
-    blk_id: usize,
+    dev: Box<dyn BlockDevice>,
 }
 
 impl Ext4DiskWrapper {
     /// Create a new disk.
-    pub const fn new(blk_id: usize) -> Self {
+    pub const fn new(blk_dev: Box<dyn BlockDevice>) -> Self {
         Self {
             block_id: 0,
             offset: 0,
-            blk_id,
+            dev: blk_dev,
         }
     }
 
@@ -56,26 +56,29 @@ impl KernelDevOp for Ext4DiskWrapper {
 
     fn write(dev: &mut Self::DevType, buf: &[u8]) -> Result<usize, i32> {
         assert!(dev.offset % BLOCK_SIZE == 0);
-        get_blk_device(0)
-            .expect("can't find block device")
-            .write_blocks(dev.block_id, buf);
+        // get_blk_device(0)
+        //     .expect("can't find block device")
+        //     .write_blocks(dev.block_id, buf);
+        dev.dev.write_block(dev.block_id, buf).unwrap();
         dev.block_id += buf.len() / BLOCK_SIZE;
         Ok(buf.len())
     }
 
     fn read(dev: &mut Self::DevType, buf: &mut [u8]) -> Result<usize, i32> {
         assert!(dev.offset % BLOCK_SIZE == 0);
-        get_blk_device(0)
-            .expect("can't find block device")
-            .read_blocks(dev.block_id, buf);
+        // get_blk_device(0)
+        //     .expect("can't find block device")
+        //     .read_blocks(dev.block_id, buf);
+        dev.dev.read_block(dev.block_id, buf).unwrap();
         dev.block_id += buf.len() / BLOCK_SIZE;
         Ok(buf.len())
     }
 
     fn seek(dev: &mut Self::DevType, off: i64, whence: i32) -> Result<i64, i32> {
-        let size = get_blk_device(dev.blk_id)
-            .expect("can't seek to device")
-            .capacity();
+        // let size = get_blk_device(dev.blk_id)
+        //     .expect("can't seek to device")
+        //     .capacity();
+        let size = dev.dev.capacity().unwrap();
         let new_pos = match whence as u32 {
             lwext4_rust::bindings::SEEK_SET => Some(off),
             lwext4_rust::bindings::SEEK_CUR => {
@@ -107,8 +110,8 @@ unsafe impl Sync for Ext4FileSystem {}
 unsafe impl Send for Ext4FileSystem {}
 
 impl Ext4FileSystem {
-    pub fn new(blk_id: usize) -> Arc<Self> {
-        let disk = Ext4DiskWrapper::new(blk_id);
+    pub fn new(blk_dev: Box<dyn BlockDevice>) -> Arc<Self> {
+        let disk = Ext4DiskWrapper::new(blk_dev);
         let inner = Ext4BlockWrapper::<Ext4DiskWrapper>::new(disk)
             .expect("failed to initialize EXT4 filesystem");
         let root = Arc::new(Ext4FileWrapper::new("/", InodeTypes::EXT4_DE_DIR));

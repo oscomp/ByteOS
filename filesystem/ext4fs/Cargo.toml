@@ -8,6 +8,5 @@ log = "0.4"
 vfscore = { workspace = true }
 syscalls = { workspace = true }
 sync = { workspace = true }
-devices = { workspace = true }
 libc-core = { workspace = true }
 lwext4_rust = { git = "https://github.com/Azure-stars/lwext4_rust.git", default-features = false, rev = "ee5131c" }
