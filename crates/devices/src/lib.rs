@@ -17,10 +17,11 @@ pub use fdt_parser as fdt;
 use alloc::{collections::BTreeMap, sync::Arc, vec::Vec};
 use device::{BlkDriver, DeviceSet, Driver, IntDriver, NetDriver, UartDriver};
 use fdt_parser::Node;
+use lazyinit::LazyInit;
 pub use linkme::{self, distributed_slice as linker_use};
 pub use polyhal::{consts::VIRT_ADDR_START, pagetable::PAGE_SIZE};
 pub use runtime::frame::{frame_alloc, frame_alloc_much, FrameTracker};
-pub use sync::{LazyInit, Mutex, MutexGuard};
+pub use sync::{Mutex, MutexGuard};
 
 pub static DEVICE_TREE: LazyInit<Vec<u8>> = LazyInit::new();
 pub static DRIVER_REGS: Mutex<BTreeMap<&str, fn(&Node) -> Arc<dyn Driver>>> =
@@ -50,12 +51,12 @@ pub fn get_blk_devices() -> Vec<Arc<dyn BlkDriver>> {
 
 #[inline]
 pub fn get_int_device() -> Arc<dyn IntDriver> {
-    INT_DEVICE.try_get().expect("can't find int device").clone()
+    INT_DEVICE.get().expect("can't find int device").clone()
 }
 
 #[inline]
 pub fn get_main_uart() -> Option<Arc<dyn UartDriver>> {
-    MAIN_UART.try_get().cloned()
+    MAIN_UART.get().cloned()
 }
 
 #[inline]
@@ -99,7 +100,7 @@ pub fn try_to_add_device(node: &Node) {
 
 pub fn regist_devices_irq() {
     // register the drivers in the IRQ MANAGER.
-    if let Some(plic) = INT_DEVICE.try_get() {
+    if let Some(plic) = INT_DEVICE.get() {
         for (irq, driver) in IRQ_MANAGER.lock().iter() {
             plic.register_irq(*irq, driver.clone());
         }

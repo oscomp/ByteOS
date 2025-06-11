@@ -37,10 +37,12 @@ impl DeviceSet {
             DeviceType::BLOCK(device) => self.blk.push(device),
             DeviceType::NET(device) => self.net.push(device),
             DeviceType::INPUT(device) => self.input.push(device),
-            DeviceType::INT(device) => INT_DEVICE.init_by(device),
+            DeviceType::INT(device) => {
+                INT_DEVICE.init_once(device);
+            }
             DeviceType::UART(device) => {
                 if self.uart.is_empty() {
-                    MAIN_UART.init_by(device.clone());
+                    MAIN_UART.init_once(device.clone());
                 }
                 self.uart.push(device)
             }

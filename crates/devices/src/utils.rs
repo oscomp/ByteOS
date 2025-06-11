@@ -13,7 +13,7 @@ pub fn virt_to_phys(vaddr: usize) -> Option<usize> {
 
 pub fn puts(buffer: &[u8]) {
     // Use the main uart as much as possible.
-    let main_uart_inited = MAIN_UART.is_init();
+    let main_uart_inited = MAIN_UART.is_inited();
     for i in buffer {
         match main_uart_inited {
             true => MAIN_UART.put(*i),
@@ -26,7 +26,7 @@ pub fn puts(buffer: &[u8]) {
 ///
 /// If the uart device was initialized, then use it.
 pub fn get_char() -> Option<u8> {
-    match MAIN_UART.try_get() {
+    match MAIN_UART.get() {
         Some(uart) => uart.get(),
         None => DebugConsole::getchar(),
     }

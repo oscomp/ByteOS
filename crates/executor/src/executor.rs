@@ -10,9 +10,10 @@ use core::{
     task::{Context, Poll},
 };
 use hashbrown::HashMap;
+use lazyinit::LazyInit;
 use log::info;
 use polyhal::{hart_id, PageTable};
-use sync::{LazyInit, Mutex};
+use sync::Mutex;
 
 use crate::task::{AsyncTask, AsyncTaskItem, PinedFuture};
 
@@ -42,12 +43,12 @@ impl Executor {
     pub fn init(&self, cores: usize) {
         let mut core_container = Vec::with_capacity(cores);
         (0..cores).for_each(|_| core_container.push(Mutex::new(None)));
-        self.cores.init_by(core_container);
+        self.cores.init_once(core_container);
 
         // Init TaskMAP with new empty hash map
-        TASK_MAP.init_by(Mutex::new(HashMap::new()));
-        if !BOOT_PAGE.is_init() {
-            BOOT_PAGE.init_by(PageTable::current());
+        TASK_MAP.init_once(Mutex::new(HashMap::new()));
+        if !BOOT_PAGE.is_inited() {
+            BOOT_PAGE.init_once(PageTable::current());
         }
 
         // Finish initializing

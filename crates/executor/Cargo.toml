@@ -13,3 +13,4 @@ downcast-rs = { version = "2.0.1", default-features = false, features = [
   "sync",
 ] }
 hashbrown = "0.14"
+lazyinit = "0.2.2"
