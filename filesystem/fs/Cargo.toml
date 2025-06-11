@@ -7,24 +7,8 @@ edition = "2021"
 
 [dependencies]
 log = "0.4"
-bitflags = "2.0.2"
-devfs = { workspace = true }
-procfs = { workspace = true }
-ramfs = { workspace = true }
+bitflags = "2.9.1"
 vfscore = { workspace = true }
 syscalls = { workspace = true }
 sync = { workspace = true }
-devices = { workspace = true }
 libc-core = { workspace = true }
-
-[target.'cfg(root_fs = "ext4_rs")'.dependencies]
-ext4rsfs = { path = "../ext4rsfs" }
-
-[target.'cfg(root_fs = "ext4")'.dependencies]
-ext4fs = { path = "../ext4fs" }
-
-[target.'cfg(root_fs = "fat32")'.dependencies.fatfs]
-git = "https://github.com/byte-os/rust-fatfs.git"
-# rev = "a3a834e"
-default-features = false
-features = ["alloc", "lfn", "unicode"]

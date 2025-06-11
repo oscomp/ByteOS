@@ -32,6 +32,7 @@ fn main() {
     write_module_config(drivers);
     gen_linker_script(&env::var("BOARD").expect("can't find board"))
         .expect("can't generate linker script");
+    println!(r#"cargo::rustc-check-cfg=cfg(root_fs, values("fat32", "ext4", "ext4_rs"))"#);
     println!("cargo:rerun-if-env-changed=CARGO_CFG_TARGET_ARCH");
     println!("cargo:rerun-if-env-changed=CARGO_CFG_KERNEL_BASE");
     println!("cargo:rerun-if-env-changed=BOARD");

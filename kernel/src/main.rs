@@ -19,6 +19,8 @@ extern crate polyhal_trap;
 
 #[macro_use]
 mod logging;
+#[cfg(root_fs = "fat32")]
+mod fatfs_shim;
 
 mod consts;
 mod panic;
@@ -32,8 +34,11 @@ use crate::tasks::current_user_task;
 use crate::user::task_ilegal;
 use core::hint::spin_loop;
 use core::time::Duration;
-use devices::{self, get_int_device, PAGE_SIZE, VIRT_ADDR_START};
+use devfs::{DevDir, DevFS};
+use devices::{self, get_blk_devices, get_int_device, PAGE_SIZE, VIRT_ADDR_START};
 use executor::current_task;
+#[cfg(root_fs = "ext4")]
+use fs::dentry::mount_fs;
 use fs::file::File;
 use libc_core::fcntl::OpenFlags;
 use polyhal::common::PageAlloc;
@@ -43,6 +48,8 @@ use polyhal::timer::{current_time, set_next_timer};
 use polyhal::{va, PhysAddr};
 use polyhal_trap::trap::TrapType;
 use polyhal_trap::trapframe::{TrapFrame, TrapFrameArgs};
+use procfs::ProcFS;
+use ramfs::RamFs;
 use runtime::frame::{frame_alloc_persist, frame_unalloc};
 use tasks::UserTask;
 use user::user_cow_int;
@@ -166,7 +173,6 @@ fn main(hart_id: usize) {
 
     // Boot all application core.
     // polyhal::multicore::MultiCore::boot_all();
-
     devices::prepare_drivers();
 
     if let Ok(fdt) = get_fdt() {
@@ -182,7 +188,24 @@ fn main(hart_id: usize) {
     // Instruction::ebreak();
 
     // initialize filesystem
-    fs::init();
+    info!("fs module initialized");
+    if !get_blk_devices().is_empty() {
+        #[cfg(root_fs = "fat32")]
+        mount_fs(fatfs_shim::Fat32FileSystem::new(0), "/");
+        #[cfg(root_fs = "ext4")]
+        mount_fs(ext4fs::Ext4FileSystem::new(0), "/");
+        #[cfg(root_fs = "ext4_rs")]
+        mount_fs(ext4rsfs::Ext4FileSystem::new(0), "/");
+    } else {
+        mount_fs(RamFs::new(), "/");
+    }
+    mount_fs(DevFS::new_with_dir(DevDir::new()), "/dev");
+    mount_fs(RamFs::new(), "/tmp");
+    mount_fs(RamFs::new(), "/dev/shm");
+    mount_fs(RamFs::new(), "/home");
+    mount_fs(RamFs::new(), "/var");
+    mount_fs(ProcFS::new(), "/proc");
+    // filesystems.push((RamFs::new(), "/bin"));
     {
         File::open("/var", OpenFlags::DIRECTORY)
             .expect("can't open /var")

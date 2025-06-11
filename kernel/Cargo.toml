@@ -45,3 +45,20 @@ kgoldfish-rtc = { workspace = true }
 kramdisk = { workspace = true }
 general-plic = { workspace = true }
 ns16550a = { workspace = true }
+
+# FileSystems
+devfs = { workspace = true }
+procfs = { workspace = true }
+ramfs = { workspace = true }
+
+[target.'cfg(root_fs = "ext4_rs")'.dependencies]
+ext4rsfs = { path = "../filesystem/ext4rsfs" }
+
+[target.'cfg(root_fs = "ext4")'.dependencies]
+ext4fs = { path = "../filesystem/ext4fs" }
+
+[target.'cfg(root_fs = "fat32")'.dependencies.fatfs]
+git = "https://github.com/byte-os/rust-fatfs.git"
+# rev = "a3a834e"
+default-features = false
+features = ["alloc", "lfn", "unicode"]
