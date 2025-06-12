@@ -59,7 +59,7 @@ impl KernelDevOp for Ext4DiskWrapper {
         let mut all_off = 0;
         while buf.len() > 0 {
             let wlen = dev.dev.write_block(dev.block_id, buf).unwrap();
-            dev.block_id += wlen;
+            dev.block_id += wlen / BLOCK_SIZE;
             all_off += wlen;
             buf = &buf[wlen..];
         }
@@ -71,7 +71,7 @@ impl KernelDevOp for Ext4DiskWrapper {
         let mut all_off = 0;
         while buf.len() > 0 {
             let rlen = dev.dev.read_block(dev.block_id, buf).unwrap();
-            dev.block_id += rlen;
+            dev.block_id += rlen / BLOCK_SIZE;
             all_off += rlen;
             buf = &mut buf[rlen..];
         }
