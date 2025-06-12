@@ -54,24 +54,28 @@ impl Ext4DiskWrapper {
 impl KernelDevOp for Ext4DiskWrapper {
     type DevType = Self;
 
-    fn write(dev: &mut Self::DevType, buf: &[u8]) -> Result<usize, i32> {
+    fn write(dev: &mut Self::DevType, mut buf: &[u8]) -> Result<usize, i32> {
         assert!(dev.offset % BLOCK_SIZE == 0);
-        // get_blk_device(0)
-        //     .expect("can't find block device")
-        //     .write_blocks(dev.block_id, buf);
-        dev.dev.write_block(dev.block_id, buf).unwrap();
-        dev.block_id += buf.len() / BLOCK_SIZE;
-        Ok(buf.len())
+        let mut all_off = 0;
+        while buf.len() > 0 {
+            let wlen = dev.dev.write_block(dev.block_id, buf).unwrap();
+            dev.block_id += wlen;
+            all_off += wlen;
+            buf = &buf[wlen..];
+        }
+        Ok(all_off)
     }
 
-    fn read(dev: &mut Self::DevType, buf: &mut [u8]) -> Result<usize, i32> {
+    fn read(dev: &mut Self::DevType, mut buf: &mut [u8]) -> Result<usize, i32> {
         assert!(dev.offset % BLOCK_SIZE == 0);
-        // get_blk_device(0)
-        //     .expect("can't find block device")
-        //     .read_blocks(dev.block_id, buf);
-        dev.dev.read_block(dev.block_id, buf).unwrap();
-        dev.block_id += buf.len() / BLOCK_SIZE;
-        Ok(buf.len())
+        let mut all_off = 0;
+        while buf.len() > 0 {
+            let rlen = dev.dev.read_block(dev.block_id, buf).unwrap();
+            dev.block_id += rlen;
+            all_off += rlen;
+            buf = &mut buf[rlen..];
+        }
+        Ok(all_off)
     }
 
     fn seek(dev: &mut Self::DevType, off: i64, whence: i32) -> Result<i64, i32> {
