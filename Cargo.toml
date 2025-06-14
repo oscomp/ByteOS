@@ -11,6 +11,7 @@ members = [
     "crates/sync",
 
     # 文件系统
+    "filesystem/allocfs",
     "filesystem/devfs",
     "filesystem/fs",
     "filesystem/procfs",
@@ -36,6 +37,7 @@ devfs = { path = "filesystem/devfs" }
 procfs = { path = "filesystem/procfs" }
 vfscore = { path = "filesystem/vfscore" }
 ramfs = { path = "filesystem/ramfs" }
+allocfs = { path = "filesystem/allocfs" }
 
 general-plic = { path = "driver/general-plic" }
 kgoldfish-rtc = { path = "driver/kgoldfish-rtc" }

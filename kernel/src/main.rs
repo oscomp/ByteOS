@@ -33,6 +33,7 @@ mod utils;
 
 use crate::tasks::current_user_task;
 use crate::user::task_ilegal;
+use allocfs::AllocFS;
 use core::hint::spin_loop;
 use core::time::Duration;
 use devfs::{DevDir, DevFS};
@@ -204,7 +205,7 @@ fn main(hart_id: usize) {
         mount_fs(RamFs::new(), "/");
     }
     mount_fs(DevFS::new_with_dir(DevDir::new()), "/dev");
-    mount_fs(RamFs::new(), "/tmp");
+    mount_fs(AllocFS::new(), "/tmp");
     mount_fs(RamFs::new(), "/dev/shm");
     mount_fs(RamFs::new(), "/home");
     mount_fs(RamFs::new(), "/var");

@@ -1,0 +1,13 @@
+[package]
+name = "allocfs"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+vfscore = { workspace = true }
+log = "0.4"
+sync = { workspace = true }
+syscalls = { workspace = true }
+libc-core = { workspace = true }

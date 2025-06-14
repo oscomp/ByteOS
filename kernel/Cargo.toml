@@ -50,6 +50,7 @@ ns16550a = { workspace = true }
 devfs = { workspace = true }
 procfs = { workspace = true }
 ramfs = { workspace = true }
+allocfs = { workspace = true }
 
 [target.'cfg(root_fs = "ext4_rs")'.dependencies]
 ext4rsfs = { path = "../filesystem/ext4rsfs" }

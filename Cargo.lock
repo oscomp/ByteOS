@@ -41,6 +41,17 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "0942ffc6dcaadf03badf6e6a2d0228460359d5e34b57ccdc720b7382dfbd5ec5"
 
 [[package]]
+name = "allocfs"
+version = "0.1.0"
+dependencies = [
+ "libc-core",
+ "log",
+ "sync",
+ "syscalls",
+ "vfscore",
+]
+
+[[package]]
 name = "arm_gicv2"
 version = "0.1.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -316,6 +327,7 @@ dependencies = [
 name = "kernel"
 version = "0.1.0"
 dependencies = [
+ "allocfs",
  "async-recursion",
  "bit_field",
  "devfs",
