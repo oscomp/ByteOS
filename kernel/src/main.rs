@@ -39,7 +39,7 @@ use core::time::Duration;
 use devfs::{DevDir, DevFS};
 use devices::{self, get_blk_devices, get_int_device, PAGE_SIZE, VIRT_ADDR_START};
 use executor::current_task;
-#[cfg(root_fs = "ext4")]
+#[cfg(any(root_fs = "ext4", root_fs = "ext4_rs"))]
 use fs::dentry::mount_fs;
 use fs::file::File;
 use libc_core::fcntl::OpenFlags;

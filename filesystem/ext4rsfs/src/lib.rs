@@ -197,8 +197,15 @@ impl INodeInterface for Ext4FileWrapper {
         Ok(())
     }
 
-    fn create(&self, _name: &str, _ty: FileType) -> VfsResult<()> {
-        panic!("create")
+    fn create(&self, name: &str, ty: FileType) -> VfsResult<()> {
+        let file_mode = match ty {
+            FileType::File => InodeFileType::S_IFREG,
+            FileType::Directory => InodeFileType::S_IFDIR,
+            FileType::Link => InodeFileType::S_IFLNK,
+            _ => unreachable!()
+        };
+        self.ext4.create(self.inode, name, file_mode.bits()).map_err(map_ext4_err)?;
+        Ok(())
     }
 
     fn readat(&self, offset: usize, buffer: &mut [u8]) -> VfsResult<usize> {

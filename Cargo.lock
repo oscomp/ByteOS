@@ -213,9 +213,9 @@ dependencies = [
 
 [[package]]
 name = "ext4_rs"
-version = "1.3.1"
+version = "1.3.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "61361204b28ca92b18b5e9590b9cf3444e2f73f9957472e978712690136d8742"
+checksum = "9a1a97344bde15b0ace15e265dab27228d4bdc37a0bfa8548c5645d7cfa6a144"
 dependencies = [
  "bitflags 2.9.1",
  "log",
@@ -464,7 +464,7 @@ dependencies = [
 [[package]]
 name = "lwext4_rust"
 version = "0.2.0"
-source = "git+https://github.com/Azure-stars/lwext4_rust.git?rev=ee5131c#ee5131ca3fbb03f39ea0878431aadb521d191122"
+source = "git+https://github.com/Azure-stars/lwext4_rust.git?rev=2e56b0a#2e56b0aa2680b210892a46375fefca2bdf6e2865"
 dependencies = [
  "log",
 ]
